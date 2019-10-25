@@ -39,26 +39,72 @@ using namespace std;
         return rec_inver(++cad,++i);
     }
 
-    bool pali(char *cad){
+    int pali(char *cad){
+        int a=0;
         char *fin=cad + cad_tam(cad)-1;
-        while(fin-->=cad++){
+        while(fin>=cad){
             if (*fin==*cad)
-                return true;
+                a+=1;
             else
-                return false;
+                return 0;
+            fin--;
+            cad++;
         }
+        return a;
+    }
+
+    /*int rec_pali(char *cad,int a=0){
+        if (cad_tam(cad)==1)
+            return 1;
+        if (cad_tam(cad)==2){
+            char *fin=cad + cad_tam(cad)-1;
+            if(*cad==*fin)
+                return 1;
+            else{
+                a=0;
+                return 0;
+            }
+        }
+        else{
+            char *fin=cad + cad_tam(cad)-1;
+            if (*cad==*fin){
+                a+=1;
+                return a+rec_pali(cad-1,a++);
+            }
+            else{
+                a=0;
+                return 0;
+            }
+        }
+    }*/
+
+    int rec_pali(char *ini, char *fin){
+        if (ini==fin)
+            return 1;
+        if(*ini!=*fin)
+            return 0;
+        rec_pali(++ini,--fin);
+    }
+    int call_rec_pali(char *cad){
+        char *fin=cad+cad_tam(cad)-1;
+        return rec_pali(cad,fin);
     }
 
 int main()
 {
-    char cad[]="luz azul";
+    char cad[]="luzul";
     cout<<cad_tam(cad)<<endl;
     cout<<rec_tam(cad)<<endl;
     inver(cad);
     cout<<cad<<endl;
     rec_inver(cad);
     cout<<cad<<endl;
-    if (pali(cad)==1)
+    if (pali(cad))
+        cout<<"Es palindrome"<<endl;
+    else
+        cout<<"No es palindrome"<<endl;
+
+    if (call_rec_pali(cad))
         cout<<"Es palindrome"<<endl;
     else
         cout<<"No es palindrome"<<endl;
